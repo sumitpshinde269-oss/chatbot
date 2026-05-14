@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Respondr | Settings - Alert Configuration</title>
+  <!-- Google Fonts + Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f5f7fb;
+      color: #1e293b;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    /* Dark theme */
+    body.dark {
+      background: #0f172a;
+      color: #e2e8f0;
+    }
+
+    body.dark .settings-container {
+      background: #0f172a;
+    }
+    body.dark .settings-card {
+      background: #1e293b;
+      border-color: #334155;
+    }
+    body.dark .config-row {
+      border-bottom-color: #334155;
+    }
+    body.dark .severity-tag {
+      background: #0f172a;
+    }
+    body.dark select, body.dark input {
+      background: #334155;
+      border-color: #475569;
+      color: white;
+    }
+
+    .settings-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 28px 24px 60px;
+    }
+
+    /* Header */
+    .settings-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .logo-area h1 {
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: #3b82f6;
+    }
+    .logo-area p {
+      font-size: 0.85rem;
+      color: #94a3b8;
+    }
+    body.dark .logo-area p { color: #64748b; }
+    .nav-icons {
+      display: flex;
+      gap: 12px;
+    }
+    .nav-btn {
+      background: #131828;
+      border: 1px solid #1e293b;
+      padding: 8px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 500;
+      color: #94a3b8;
+      transition: 0.2s;
+    }
+    body.dark .nav-btn {
+      background: #131828;
+      border-color: #1e293b;
+      color: #e2e8f0;
+    }
+    .nav-btn:hover {
+      border-color: #3b82f6;
+      color: #3b82f6;
+    }
+    .nav-btn i { margin-right: 6px; }
+
+    /* Cards */
+    .settings-card {
+      background: #131828;
+      border-radius: 12px;
+      border: 1px solid #1e293b;
+      margin-bottom: 28px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+    .card-header {
+      padding: 22px 28px;
+      border-bottom: 1px solid #1e293b;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    body.dark .card-header {
+      border-bottom-color: #1e293b;
+    }
+    .card-header i {
+      font-size: 1.6rem;
+      color: #3b82f6;
+    }
+    .card-header h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+    .card-body {
+      padding: 24px 28px;
+    }
+
+    /* Config rows */
+    .config-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 0;
+      border-bottom: 1px solid #1e293b;
+    }
+    .config-row:last-child {
+      border-bottom: none;
+    }
+    .config-label {
+      flex: 1;
+      font-weight: 600;
+    }
+    .config-label small {
+      font-weight: normal;
+      font-size: 0.75rem;
+      color: #64748b;
+      display: block;
+      margin-top: 4px;
+    }
+    .config-control {
+      flex: 1;
+      min-width: 200px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 20px;
+      align-items: center;
+    }
+
+    /* Slider */
+    input[type="range"] {
+      width: 220px;
+      height: 5px;
+      -webkit-appearance: none;
+      background: #e2e8f0;
+      border-radius: 5px;
+      outline: none;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      background: #3b82f6;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    }
+    .slider-value {
+      background: #1e293b;
+      padding: 4px 12px;
+      border-radius: 8px;
+      font-weight: 700;
+      color: #3b82f6;
+      min-width: 55px;
+      text-align: center;
+    }
+    body.dark .slider-value {
+      background: #1e293b;
+      color: #60a5fa;
+    }
+
+    /* Severity mapping grid */
+    .severity-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 10px;
+    }
+    .severity-item {
+      background: #fefaf5;
+      border-radius: 20px;
+      padding: 16px;
+      border: 1px solid #ffe4c4;
+    }
+    body.dark .severity-item {
+      background: #0f172a;
+      border-color: #334155;
+    }
+    .severity-label {
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .severity-tag {
+      padding: 4px 10px;
+      border-radius: 30px;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+    select {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
+      background: white;
+      font-family: inherit;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    /* Toggle switches */
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 52px;
+      height: 26px;
+    }
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider-round {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #cbd5e1;
+      transition: 0.2s;
+      border-radius: 34px;
+    }
+    .slider-round:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.2s;
+      border-radius: 50%;
+    }
+    input:checked + .slider-round {
+      background-color: #3b82f6;
+    }
+    input:checked + .slider-round:before {
+      transform: translateX(26px);
+    }
+
+    .badge-enabled {
+      color: #10b981;
+      font-weight: 600;
+    }
+    .badge-disabled {
+      color: #94a3b8;
+    }
+
+    /* Fake News Detection specific styles */
+    .fake-news-stats {
+      background: #fef9e6;
+      border-radius: 20px;
+      padding: 16px;
+      margin-top: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: space-between;
+      align-items: center;
+    }
+    body.dark .fake-news-stats {
+      background: #0f172a;
+      border: 1px solid #334155;
+    }
+    .stat-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+    }
+    .test-btn {
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.2s;
+    }
+    .test-btn:hover {
+      background: #3b82f6;
+      color: white;
+      border-color: #3b82f6;
+    }
+
+    /* Action Buttons */
+    .action-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .btn-save {
+      background: #3b82f6;
+      color: white;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .btn-save:hover {
+      background: #2563eb;
+    }
+    .btn-reset {
+      background: transparent;
+      border: 1px solid #cbd5e1;
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .btn-reset:hover {
+      border-color: #3b82f6;
+      color: #3b82f6;
+    }
+    .toast-message {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #3b82f6;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 60px;
+      font-weight: 500;
+      opacity: 0;
+      transition: opacity 0.2s;
+      pointer-events: none;
+      z-index: 1000;
+    }
+    @media (max-width: 700px) {
+      .config-row { flex-direction: column; align-items: flex-start; gap: 12px; }
+      .config-control { justify-content: flex-start; width: 100%; }
+    }
+  </style>
+</head>
+<body>
+<div class="settings-container">
+  <div class="settings-header">
+    <div class="logo-area">
+      <h1><i class="fas fa-sliders-h" style="color:#3b82f6;"></i> Settings</h1>
+      <p>Configure alert thresholds, severity mapping, and notification preferences</p>
+    </div>
+    <div class="nav-icons">
+      <a href="respond.html" class="nav-btn" id="dashboardMockBtn"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+      <a href="index.html" class="nav-btn" id="landingMockBtn"><i class="fas fa-home"></i> Home</a>
+      <a href="preview.html" class="nav-btn" id="previewNav"><i class="fas fa-eye"></i> Preview</a>
+    </div>
+  </div>
+
+  <!-- 1. Alert Threshold Config: slider for post count trigger -->
+  <div class="settings-card">
+    <div class="card-header">
+      <i class="fas fa-chart-line"></i>
+      <h2>Alert Threshold Configuration</h2>
+    </div>
+    <div class="card-body">
+      <div class="config-row">
+        <div class="config-label">
+          📊 Minimum post count to trigger alert
+          <small>Number of related social posts within 5 minutes to generate alert</small>
+        </div>
+        <div class="config-control">
+          <input type="range" id="postThresholdSlider" min="1" max="20" value="3" step="1">
+          <span class="slider-value" id="thresholdValue">3</span>
+        </div>
+      </div>
+      <div class="config-row">
+        <div class="config-label">
+          ⏱️ Time window (minutes)
+          <small>Rolling window for spike detection</small>
+        </div>
+        <div class="config-control">
+          <input type="range" id="timeWindowSlider" min="1" max="30" value="5" step="1">
+          <span class="slider-value" id="windowValue">5 min</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Severity Level Mapping (Low/Medium/High/Critical) -->
+  <div class="settings-card">
+    <div class="card-header">
+      <i class="fas fa-exclamation-triangle"></i>
+      <h2>Severity Level Mapping</h2>
+    </div>
+    <div class="card-body">
+      <div class="severity-grid">
+        <div class="severity-item">
+          <div class="severity-label"><span class="severity-tag" style="background:#e6f7e6; color:#2e7d32;">🟢 Low</span></div>
+          <select id="lowSeveritySelect">
+            <option value="isolated incidents">Isolated incidents</option>
+            <option value="minor event" selected>Minor event / low impact</option>
+            <option value="watch">Watch advisory</option>
+          </select>
+        </div>
+        <div class="severity-item">
+          <div class="severity-label"><span class="severity-tag" style="background:#fff3e0; color:#ed6c02;">🟠 Medium</span></div>
+          <select id="medSeveritySelect">
+            <option value="localized threat" selected>Localized threat</option>
+            <option value="evacuation possible">Evacuation possible</option>
+            <option value="disruption">Service disruption</option>
+          </select>
+        </div>
+        <div class="severity-item">
+          <div class="severity-label"><span class="severity-tag" style="background:#ffedea; color:#d32f2f;">🔴 High</span></div>
+          <select id="highSeveritySelect">
+            <option value="immediate action" selected>Immediate action required</option>
+            <option value="shelter in place">Shelter in place</option>
+            <option value="major evacuation">Major evacuation</option>
+          </select>
+        </div>
+        <div class="severity-item">
+          <div class="severity-label"><span class="severity-tag" style="background:#fce4e4; color:#b71c1c;">💀 Critical</span></div>
+          <select id="criticalSeveritySelect">
+            <option value="mass casualty risk" selected>Mass casualty risk</option>
+            <option value="national emergency">National emergency</option>
+            <option value="total lockdown">Total lockdown</option>
+          </select>
+        </div>
+      </div>
+      <div class="config-row" style="border-bottom: none; margin-top: 8px;">
+        <div class="config-label">Default confidence threshold for escalation</div>
+        <div class="config-control"><span>≥ 75% AI confidence</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Fake News Detection Section (NEW) -->
+  <div class="settings-card">
+    <div class="card-header">
+      <i class="fas fa-shield-alt"></i>
+      <h2>Fake News & Misinformation Detection</h2>
+    </div>
+    <div class="card-body">
+      <div class="config-row">
+        <div class="config-label">
+          🛡️ Enable Fake News Detection
+          <small>AI-powered classification of misinformation, hoaxes, and false disaster claims</small>
+        </div>
+        <div class="config-control">
+          <label class="toggle-switch">
+            <input type="checkbox" id="fakeNewsToggle" checked>
+            <span class="slider-round"></span>
+          </label>
+          <span id="fakeNewsStatus" class="badge-enabled">Active</span>
+        </div>
+      </div>
+      <div class="config-row">
+        <div class="config-label">
+          Detection Sensitivity
+          <small>Higher sensitivity flags more potential misinformation (may increase false positives)</small>
+        </div>
+        <div class="config-control">
+          <input type="range" id="sensitivitySlider" min="0" max="100" value="72" step="1">
+          <span class="slider-value" id="sensitivityValue">72%</span>
+        </div>
+      </div>
+      <div class="config-row">
+        <div class="config-label">
+          📋 Action on Flagged Content
+          <small>How to handle posts identified as potential fake news</small>
+        </div>
+        <div class="config-control">
+          <select id="fakeNewsAction">
+            <option value="flag_only" selected>🚩 Flag for review only</option>
+            <option value="reduce_confidence">📉 Reduce confidence score in alerts</option>
+            <option value="exclude_from_alerts">🚫 Exclude from alert generation</option>
+            <option value="send_to_moderation">👁️ Send to human moderation queue</option>
+          </select>
+        </div>
+      </div>
+      <div class="fake-news-stats">
+        <div class="stat-chip"><i class="fas fa-chart-line" style="color:#3b82f6;"></i> <strong>Status:</strong> <span id="fakeStatsDetected">0</span> flagged</div>
+        <div class="stat-chip"><i class="fas fa-check-circle" style="color:#10b981;"></i> <strong>Accuracy:</strong> 94.3%</div>
+        <div class="stat-chip"><i class="fas fa-clock"></i> <strong>Avg detection:</strong> 4.2 sec</div>
+        <button class="test-btn" id="testFakeNewsBtn"><i class="fas fa-vial"></i> Run Test Detection</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Notification Settings: email / SMS / webhook toggle -->
+  <div class="settings-card">
+    <div class="card-header">
+      <i class="fas fa-bell"></i>
+      <h2>Notification Channels</h2>
+    </div>
+    <div class="card-body">
+      <div class="config-row">
+        <div class="config-label">
+          📧 Email Alerts
+          <small>Send to configured emergency email</small>
+        </div>
+        <div class="config-control">
+          <label class="toggle-switch">
+            <input type="checkbox" id="emailToggle" checked>
+            <span class="slider-round"></span>
+          </label>
+          <span id="emailStatus" class="badge-enabled">Enabled</span>
+        </div>
+      </div>
+      <div class="config-row">
+        <div class="config-label">
+          📱 SMS Notifications
+          <small>Critical alerts via SMS gateway</small>
+        </div>
+        <div class="config-control">
+          <label class="toggle-switch">
+            <input type="checkbox" id="smsToggle" checked>
+            <span class="slider-round"></span>
+          </label>
+          <span id="smsStatus" class="badge-enabled">Enabled</span>
+        </div>
+      </div>
+      <div class="config-row">
+        <div class="config-label">
+          🔗 Webhook (Slack/Teams)
+          <small>Push alerts to external webhook URL</small>
+        </div>
+        <div class="config-control">
+          <label class="toggle-switch">
+            <input type="checkbox" id="webhookToggle">
+            <span class="slider-round"></span>
+          </label>
+          <span id="webhookStatus" class="badge-disabled">Disabled</span>
+          <input type="text" id="webhookUrl" placeholder="https://your-webhook.com/endpoint" style="border-radius: 8px; padding: 8px 12px; width: 200px; font-size:0.75rem;" disabled>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Theme Preference (dark/light) -->
+  <div class="settings-card">
+    <div class="card-header">
+      <i class="fas fa-palette"></i>
+      <h2>Appearance</h2>
+    </div>
+    <div class="card-body">
+      <div class="config-row">
+        <div class="config-label">
+          🌓 Theme Preference
+          <small>Dark / Light mode across Respondr</small>
+        </div>
+        <div class="config-control">
+          <select id="themeSelect">
+            <option value="light">☀️ Light</option>
+            <option value="dark">🌙 Dark</option>
+            <option value="system">🖥️ System default</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Save / Reset Buttons -->
+  <div class="action-buttons">
+    <button class="btn-reset" id="resetBtn"><i class="fas fa-undo-alt"></i> Reset to Defaults</button>
+    <button class="btn-save" id="saveBtn"><i class="fas fa-save"></i> Save Configuration</button>
+  </div>
+</div>
+
+<div id="toastMsg" class="toast-message">Settings saved successfully</div>
+
+<script>
+  // DOM elements
+  const postSlider = document.getElementById('postThresholdSlider');
+  const thresholdSpan = document.getElementById('thresholdValue');
+  const windowSlider = document.getElementById('timeWindowSlider');
+  const windowSpan = document.getElementById('windowValue');
+
+  // severity selects
+  const lowSelect = document.getElementById('lowSeveritySelect');
+  const medSelect = document.getElementById('medSeveritySelect');
+  const highSelect = document.getElementById('highSeveritySelect');
+  const criticalSelect = document.getElementById('criticalSeveritySelect');
+
+  // Fake News Detection elements
+  const fakeNewsToggle = document.getElementById('fakeNewsToggle');
+  const fakeNewsStatusSpan = document.getElementById('fakeNewsStatus');
+  const sensitivitySlider = document.getElementById('sensitivitySlider');
+  const sensitivityValueSpan = document.getElementById('sensitivityValue');
+  const fakeNewsActionSelect = document.getElementById('fakeNewsAction');
+  const fakeStatsDetectedSpan = document.getElementById('fakeStatsDetected');
+  const testFakeNewsBtn = document.getElementById('testFakeNewsBtn');
+
+  // toggles & fields
+  const emailToggle = document.getElementById('emailToggle');
+  const smsToggle = document.getElementById('smsToggle');
+  const webhookToggle = document.getElementById('webhookToggle');
+  const webhookUrlInput = document.getElementById('webhookUrl');
+  const emailStatusSpan = document.getElementById('emailStatus');
+  const smsStatusSpan = document.getElementById('smsStatus');
+  const webhookStatusSpan = document.getElementById('webhookStatus');
+
+  const themeSelect = document.getElementById('themeSelect');
+
+  // toast
+  const toast = document.getElementById('toastMsg');
+  function showToast(message, isError = false) {
+    toast.textContent = message;
+    toast.style.backgroundColor = isError ? '#dc2626' : '#3b82f6';
+    toast.style.opacity = '1';
+    setTimeout(() => { toast.style.opacity = '0'; }, 2700);
+  }
+
+  // update sliders display
+  postSlider.addEventListener('input', () => { thresholdSpan.innerText = postSlider.value; });
+  windowSlider.addEventListener('input', () => { windowSpan.innerText = windowSlider.value + ' min'; });
+  sensitivitySlider.addEventListener('input', () => { sensitivityValueSpan.innerText = sensitivitySlider.value + '%'; });
+
+  // Fake News toggle status update
+  function updateFakeNewsStatus() {
+    const isEnabled = fakeNewsToggle.checked;
+    fakeNewsStatusSpan.innerText = isEnabled ? 'Active' : 'Inactive';
+    fakeNewsStatusSpan.className = isEnabled ? 'badge-enabled' : 'badge-disabled';
+    sensitivitySlider.disabled = !isEnabled;
+    fakeNewsActionSelect.disabled = !isEnabled;
+    if (!isEnabled) {
+      sensitivitySlider.style.opacity = '0.5';
+      fakeNewsActionSelect.style.opacity = '0.5';
+    } else {
+      sensitivitySlider.style.opacity = '1';
+      fakeNewsActionSelect.style.opacity = '1';
+    }
+  }
+  fakeNewsToggle.addEventListener('change', updateFakeNewsStatus);
+  
+  // Test Fake News Detection button - simulates detection and shows result
+  testFakeNewsBtn.addEventListener('click', () => {
+    if (!fakeNewsToggle.checked) {
+      showToast('Fake News Detection is disabled. Enable to test detection.', true);
+      return;
+    }
+    const sensitivity = parseInt(sensitivitySlider.value);
+    const testMessages = [
+      { text: "Suspicious government announcement claiming urgent action. Verify before sharing.", isFake: true, type: "hoax" },
+      { text: "Water levels rising in downtown area, residents advised to move to higher ground.", isFake: false, type: "real" },
+      { text: "Breaking: Major incident reported - officials assessing situation.", isFake: true, type: "misinfo" },
+      { text: "🌀 Cyclone alert: NDRF teams deployed to coastal districts", isFake: false, type: "real" }
+    ];
+    const randomTest = testMessages[Math.floor(Math.random() * testMessages.length)];
+    const detectionConfidence = Math.floor(Math.random() * 30) + (randomTest.isFake ? 65 : 85);
+    const isFlagged = randomTest.isFake || (detectionConfidence > 70);
+    
+    let resultMsg = `🧪 Test: "${randomTest.text.substring(0, 50)}..."\n`;
+    if (isFlagged) {
+      resultMsg += `⚠️ FLAGGED as potential ${randomTest.type === 'hoax' ? 'hoax' : 'misinformation'} (confidence: ${detectionConfidence}%)\n`;
+      resultMsg += `📋 Action configured: ${fakeNewsActionSelect.options[fakeNewsActionSelect.selectedIndex].text}`;
+      // increment counter for demo
+      let currentCount = parseInt(fakeStatsDetectedSpan.innerText);
+      fakeStatsDetectedSpan.innerText = currentCount + 1;
+      showToast(`Fake News Detection: Content flagged as ${randomTest.type === 'hoax' ? 'hoax' : 'misinformation'}`, false);
+    } else {
+      resultMsg += `✅ Content appears legitimate (confidence: ${detectionConfidence}%)`;
+      showToast(`✅ Test completed: Content verified as authentic`, false);
+    }
+    showToast(resultMsg, false);
+  });
+
+  // notification status toggles
+  function updateNotificationStatus() {
+    emailStatusSpan.innerText = emailToggle.checked ? 'Enabled' : 'Disabled';
+    emailStatusSpan.className = emailToggle.checked ? 'badge-enabled' : 'badge-disabled';
+    smsStatusSpan.innerText = smsToggle.checked ? 'Enabled' : 'Disabled';
+    smsStatusSpan.className = smsToggle.checked ? 'badge-enabled' : 'badge-disabled';
+    const webhookEnabled = webhookToggle.checked;
+    webhookStatusSpan.innerText = webhookEnabled ? 'Enabled' : 'Disabled';
+    webhookStatusSpan.className = webhookEnabled ? 'badge-enabled' : 'badge-disabled';
+    webhookUrlInput.disabled = !webhookEnabled;
+    if (!webhookEnabled) webhookUrlInput.value = '';
+  }
+  emailToggle.addEventListener('change', updateNotificationStatus);
+  smsToggle.addEventListener('change', updateNotificationStatus);
+  webhookToggle.addEventListener('change', updateNotificationStatus);
+  updateNotificationStatus();
+
+  // theme logic
+  function applyTheme(themeValue) {
+    const isDark = themeValue === 'dark' || (themeValue === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    if (isDark) document.body.classList.add('dark');
+    else document.body.classList.remove('dark');
+  }
+  function setThemePreference(value) {
+    localStorage.setItem('respondr_theme_pref', value);
+    applyTheme(value);
+  }
+  themeSelect.addEventListener('change', (e) => {
+    setThemePreference(e.target.value);
+    showToast(`Theme updated to ${e.target.value === 'dark' ? 'Dark' : e.target.value === 'light' ? 'Light' : 'System'} mode`);
+  });
+  const savedTheme = localStorage.getItem('respondr_theme_pref') || 'light';
+  themeSelect.value = savedTheme;
+  applyTheme(savedTheme);
+  if (savedTheme === 'system') {
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+      if (localStorage.getItem('respondr_theme_pref') === 'system') applyTheme('system');
+    });
+  }
+
+  // Default configuration values for reset
+  const defaultConfig = {
+    postThreshold: 3,
+    timeWindow: 5,
+    lowSeverity: 'minor event',
+    medSeverity: 'localized threat',
+    highSeverity: 'immediate action',
+    criticalSeverity: 'mass casualty risk',
+    fakeNewsEnabled: true,
+    fakeNewsSensitivity: 72,
+    fakeNewsAction: 'flag_only',
+    email: true,
+    sms: true,
+    webhook: false,
+    webhookUrl: '',
+    theme: 'light'
+  };
+
+  // load saved config from localStorage
+  function loadSavedConfig() {
+    const saved = localStorage.getItem('respondr_settings');
+    if (saved) {
+      try {
+        const cfg = JSON.parse(saved);
+        postSlider.value = cfg.postThreshold || 3;
+        thresholdSpan.innerText = postSlider.value;
+        windowSlider.value = cfg.timeWindow || 5;
+        windowSpan.innerText = windowSlider.value + ' min';
+        lowSelect.value = cfg.lowSeverity || 'minor event';
+        medSelect.value = cfg.medSeverity || 'localized threat';
+        highSelect.value = cfg.highSeverity || 'immediate action';
+        criticalSelect.value = cfg.criticalSeverity || 'mass casualty risk';
+        
+        // Fake News config
+        fakeNewsToggle.checked = cfg.fakeNewsEnabled !== undefined ? cfg.fakeNewsEnabled : true;
+        sensitivitySlider.value = cfg.fakeNewsSensitivity || 72;
+        sensitivityValueSpan.innerText = sensitivitySlider.value + '%';
+        fakeNewsActionSelect.value = cfg.fakeNewsAction || 'flag_only';
+        
+        emailToggle.checked = cfg.email !== undefined ? cfg.email : true;
+        smsToggle.checked = cfg.sms !== undefined ? cfg.sms : true;
+        webhookToggle.checked = cfg.webhook || false;
+        webhookUrlInput.value = cfg.webhookUrl || '';
+        if (cfg.theme) themeSelect.value = cfg.theme;
+        
+        updateFakeNewsStatus();
+        updateNotificationStatus();
+        applyTheme(themeSelect.value);
+      } catch(e) { console.warn(e); }
+    }
+  }
+  loadSavedConfig();
+
+  // save config
+  function saveCurrentConfig() {
+    const config = {
+      postThreshold: parseInt(postSlider.value),
+      timeWindow: parseInt(windowSlider.value),
+      lowSeverity: lowSelect.value,
+      medSeverity: medSelect.value,
+      highSeverity: highSelect.value,
+      criticalSeverity: criticalSelect.value,
+      fakeNewsEnabled: fakeNewsToggle.checked,
+      fakeNewsSensitivity: parseInt(sensitivitySlider.value),
+      fakeNewsAction: fakeNewsActionSelect.value,
+      email: emailToggle.checked,
+      sms: smsToggle.checked,
+      webhook: webhookToggle.checked,
+      webhookUrl: webhookUrlInput.value,
+      theme: themeSelect.value
+    };
+    localStorage.setItem('respondr_settings', JSON.stringify(config));
+    showToast('✅ All settings saved successfully. Fake News Detection preferences applied.');
+    applyTheme(themeSelect.value);
+    window.dispatchEvent(new CustomEvent('respondr-settings-updated', { detail: config }));
+  }
+
+  document.getElementById('saveBtn').addEventListener('click', saveCurrentConfig);
+
+  // reset to defaults
+  document.getElementById('resetBtn').addEventListener('click', () => {
+    postSlider.value = defaultConfig.postThreshold;
+    thresholdSpan.innerText = defaultConfig.postThreshold;
+    windowSlider.value = defaultConfig.timeWindow;
+    windowSpan.innerText = defaultConfig.timeWindow + ' min';
+    lowSelect.value = defaultConfig.lowSeverity;
+    medSelect.value = defaultConfig.medSeverity;
+    highSelect.value = defaultConfig.highSeverity;
+    criticalSelect.value = defaultConfig.criticalSeverity;
+    
+    fakeNewsToggle.checked = defaultConfig.fakeNewsEnabled;
+    sensitivitySlider.value = defaultConfig.fakeNewsSensitivity;
+    sensitivityValueSpan.innerText = sensitivitySlider.value + '%';
+    fakeNewsActionSelect.value = defaultConfig.fakeNewsAction;
+    
+    emailToggle.checked = defaultConfig.email;
+    smsToggle.checked = defaultConfig.sms;
+    webhookToggle.checked = defaultConfig.webhook;
+    webhookUrlInput.value = defaultConfig.webhookUrl;
+    themeSelect.value = defaultConfig.theme;
+    
+    updateFakeNewsStatus();
+    updateNotificationStatus();
+    applyTheme(defaultConfig.theme);
+    showToast('🔄 Reset to factory defaults (not saved yet). Click Save to persist.', false);
+  });
+
+  // mock navigation
+  document.getElementById('dashboardMockBtn').addEventListener('click', (e) => {
+    e.preventDefault();
+    window.location.href = 'respond.html';
+  });
+  document.getElementById('landingMockBtn').addEventListener('click', (e) => {
+    e.preventDefault();
+    window.location.href = 'index.html';
+  });
+  document.getElementById('previewNav').addEventListener('click', (e) => {
+    e.preventDefault();
+    window.location.href = 'preview.html';
+  });
+
+  console.log('Respondr settings page with Fake News Detection module active');
+</script>
+</body>
+</html>

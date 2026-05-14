@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Respondr | AI-Powered Emergency Alerts</title>
+  <!-- Google Fonts + Font Awesome CDN -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0a0e27;
+      color: #e2e8f0;
+      scroll-behavior: smooth;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* Typography */
+    h1, h2, h3, h4 {
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #e2e8f0;
+    }
+
+    p, li, span {
+      color: #94a3b8;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: 0.2s ease;
+      text-decoration: none;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: #3b82f6;
+      color: white;
+      border: none;
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+    }
+
+    .btn-primary:hover {
+      background: #2563eb;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(59, 130, 246, 0.35);
+    }
+
+    .btn-outline {
+      border: 1.5px solid #3b82f6;
+      background: transparent;
+      color: #3b82f6;
+    }
+
+    .btn-outline:hover {
+      background: #1e3a8a;
+      border-color: #2563eb;
+      color: #60a5fa;
+    }
+
+    /* Navbar */
+    .navbar {
+      padding: 24px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 24px;
+      border-bottom: 1px solid #1e293b;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: #3b82f6;
+    }
+
+    .logo span {
+      color: #e2e8f0;
+      font-weight: 700;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-weight: 500;
+      color: #94a3b8;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: #3b82f6;
+    }
+
+    /* Hero Section */
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      padding: 64px 0 48px;
+      gap: 48px;
+    }
+
+    .hero-content {
+      flex: 1;
+    }
+
+    .hero-content h1 {
+      font-size: 3.4rem;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 24px;
+      color: #000000;
+    }
+
+    .hero-highlight {
+      color: #3b82f6;
+    }
+
+    .hero-sub {
+      font-size: 1.15rem;
+      color: #94a3b8;
+      max-width: 550px;
+      margin-bottom: 32px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .hero-visual {
+      flex: 0.8;
+      background: #131828;
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      border: 1px solid #1e293b;
+    }
+
+    /* Problem Section */
+    .section {
+      padding: 72px 0;
+    }
+
+    .section-title {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      text-align: center;
+      color: #000000;
+    }
+
+    .section-sub {
+      text-align: center;
+      color: #555;
+      max-width: 700px;
+      margin: 0 auto 48px;
+      font-size: 1.05rem;
+    }
+
+    .comparison {
+      background: #131828;
+      border-radius: 12px;
+      padding: 40px;
+      border: 1px solid #1e293b;
+    }
+
+    .vs-badge {
+      background: #1e293b;
+      display: inline-block;
+      padding: 6px 20px;
+      border-radius: 8px;
+      font-weight: 700;
+      color: #3b82f6;
+      margin-bottom: 24px;
+    }
+
+    .gap-text {
+      font-size: 1.05rem;
+      line-height: 1.5;
+      margin-bottom: 20px;
+      color: #94a3b8;
+    }
+
+    /* Steps */
+    .steps-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      justify-content: center;
+      margin-top: 40px;
+    }
+
+    .step-card {
+      background: #131828;
+      border-radius: 12px;
+      padding: 32px 24px;
+      flex: 1;
+      min-width: 230px;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      border: 1px solid #1e293b;
+      transition: all 0.2s;
+    }
+
+    .step-card:hover {
+      border-color: #3b82f6;
+      box-shadow: 0 12px 28px rgba(59, 130, 246, 0.1);
+    }
+
+    .step-icon {
+      background: #1e293b;
+      width: 74px;
+      height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      margin: 0 auto 24px;
+      font-size: 2rem;
+      color: #3b82f6;
+    }
+
+    /* Feature Cards Grid (AI Alerts, Heat Map, Sentiment) */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 32px;
+      margin-top: 20px;
+    }
+
+    .feature-card {
+      background: #131828;
+      border-radius: 12px;
+      padding: 0;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+      border: 1px solid #1e293b;
+      overflow: hidden;
+      transition: 0.2s;
+    }
+
+    .feature-header {
+      padding: 24px 24px 12px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid #1e293b;
+    }
+
+    .feature-header i {
+      font-size: 2rem;
+      color: #3b82f6;
+    }
+
+    .feature-header h3 {
+      font-size: 1.5rem;
+      margin: 0;
+      color: #e2e8f0;
+    }
+
+    .feature-body {
+      padding: 20px 24px 24px;
+    }
+
+    /* Alert items */
+    .alert-item {
+      background: #1e293b;
+      border-left: 4px solid #3b82f6;
+      padding: 14px 16px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      font-size: 0.9rem;
+      color: #e2e8f0;
+    }
+
+    .btn-sm {
+      background: #1e293b;
+      border: 1px solid #3b82f6;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: 0.2s;
+      color: #3b82f6;
+    }
+
+    .btn-sm:hover {
+      background: #2563eb;
+      color: white;
+    }
+0f172a;
+      border-radius: 8px;
+      height: 180px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #1e293b;
+    }
+
+    .heat-spot {
+      position: absolute;
+      background: radial-gradient(circle, rgba(59,130,246,0.65) 0%, rgba(59,130,246
+    .heat-spot {
+      position: absolute;
+      background: radial-gradient(circle, rgba(249,115,22,0.65) 0%, rgba(249,115,22,0.25) 70%);
+      border-radius: 50%;
+      filter: blur(12px);
+    }
+8px;
+      background: #1e293b;
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 12px 0;
+    }
+
+    .sentiment-fill {
+      height: 100%;
+      background: #3b82f6;
+      border-radius: 8px;
+    }
+
+    .calm-fill {
+      background: #10b981
+
+    .calm-fill {
+      background: #34a853;
+    }
+131828;
+      border: 2px dashed #1e293b;
+      border-radius: 12px;
+      padding: 36px 32px;
+      text-align: center;
+      margin: 32px 0 48px;
+    }
+
+    .upload-label {
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: #3b82f6;
+      color: white;
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-weight: 600;
+      margin-bottom: 24px;
+      transition: 0.2s;
+    }
+
+    .upload-label:hover {
+      background: #2563eb
+
+    .upload-label:hover {
+      background: #2563eb;
+    }
+
+    #imagePreview {
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .preview-img {8px;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.3);
+      border: 1px solid #1e293b
+      border-radius: 20px;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.05);
+      border: 1px solid #e2e2e2;
+    }
+
+    .toast-msg {
+      background: #3b82f6;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 60px;
+      font-weight: 500;
+      display: inline-block;
+    }
+
+    footer {
+      background: #fafafc;
+      border-top: 1px solid #ececec;
+      color: #4a4a4a;
+      padding: 48px 0 32px;
+      margin-top: 20px;
+    }
+
+    .footer-content {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 40px;
+    }
+
+    .footer-col h4 {
+      font-size: 1rem;
+      margin-bottom: 16px;
+      color: #000000;
+    }
+
+    @media (max-width: 768px) {
+      .hero-content h1 { font-size: 2.2rem; }
+      .container { padding: 0 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="container">
+  <div class="navbar">
+    <div class="logo">Respondr<span>.</span></div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="#how-it-works">How it works</a>
+      <a href="#features">Capabilities</a>
+      <a href="respond.html" class="btn btn-outline" style="padding: 6px 20px;"><i class="fas fa-chart-line"></i> Dashboard</a>
+      <a href="sett.html" class="btn btn-outline" style="padding: 6px 20px;"><i class="fas fa-sliders-h"></i> Settings</a>
+      <a href="preview.html" class="btn btn-outline" style="padding: 6px 20px;"><i class="fas fa-eye"></i> Preview</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <!-- Hero Section -->
+  <div class="container">
+    <div class="hero">
+      <div class="hero-content">
+        <h1>Real-time emergency intelligence from social streams</h1>
+        <p class=\"hero-sub\">Respondr transforms social media signals into actionable alerts. Advanced NLP and computer vision for emergency response teams.</p>
+        <div class="hero-buttons">
+          <a href="respond.html" class="btn btn-primary"><i class="fas fa-eye"></i> Explore Dashboard</a>
+          <a href="preview.html" class="btn btn-outline">Preview Alerts</a>
+          <a href="#problem" class="btn btn-outline">Learn more →</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div style=\"font-size: 4rem; color: #3b82f6; opacity: 0.8; margin-bottom: 12px;\">●</div>
+        <p style=\"margin-top: 16px; font-weight: 500; color: #e2e8f0;\">Live Intelligence Platform</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Problem Statement -->
+  <div class="container" id="problem">
+    <div class="section">
+      <div class="comparison">
+        <div class="vs-badge">Beyond Traditional Systems</div>
+        <div class="gap-text"><strong>Traditional emergency frameworks</strong> rely on limited sensors and delayed official channels. Respondr fuses <strong>real-time social streams (X, Reddit, Facebook) plus visual data</strong> to detect disaster signals, geotagged images, and citizen reports within seconds.</div>
+        <div class="gap-text"><strong>What Respondr delivers:</strong> Break information silos, extract crisis signals from natural language, reduce false negatives, and provide emergency agencies with early alerts, dynamic heatmaps, and sentiment analysis.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- How it works -->
+  <div class="container" id="how-it-works">
+    <div class="section">
+      <h2 class="section-title">How Respondr works</h2>
+      <p class="section-sub">From noisy feeds to actionable intelligence in three intelligent steps</p>
+      <div class="steps-grid">
+        <div class="step-card"><div class="step-icon"><i class="fas fa-database"></i></div><h3>Collect</h3><p>Aggregate millions of public posts, images, and metadata from social platforms and emergency feeds.</p></div>
+        <div class="step-card"><div class="step-icon"><i class="fas fa-brain"></i></div><h3>Analyze</h3><p>Advanced NLP and computer vision classify events, extract location, severity, and impact assessment.</p></div>
+        <div class="step-card"><div class="step-icon"><i class="fas fa-bell"></i></div><h3>Alert</h3><p>Real-time notifications, live heatmaps, and sentiment dashboards for response teams.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Core Features: AI Alerts, Heat Map, Sentiment Chart -->
+  <div class="container" id="features">
+    <div class="section">
+      <h2 class="section-title">Real-time situational awareness</h2>
+      <p class="section-sub">Powered by AI, built for emergency response</p>
+      
+      <div class="features-grid">
+        <!-- AI Alerts Card -->
+        <div class="feature-card">
+          <div class="feature-header">
+            <i class="fas fa-bell"></i>
+            <h3>AI Alerts</h3>
+          </div>
+          <div class="feature-body">
+            <div id="alertFeedContainer">
+              <div class="alert-item">
+                <i class="fas fa-fire" style="color:#3b82f6;"></i> <strong>Wildfire Incident</strong> – High priority · 94% confidence
+              </div>
+              <div class="alert-item">
+                <i class="fas fa-water" style="color:#3b82f6;"></i> <strong>Flash Flood Alert</strong> – Elevated risk · Rapid water rise
+              </div>
+              <div class="alert-item">
+                <i class="fas fa-mountain" style="color:#3b82f6;"></i> <strong>Landslide Warning</strong> – Regional impact · Road closure advisory
+              </div>
+            </div>
+            <button id="simulateAlertBtn" class="btn-sm" style="margin-top: 12px; width: 100%;"><i class="fas fa-plus-circle"></i> Generate sample alert</button>
+          </div>
+        </div>
+
+        <!-- Heat Map Card -->
+        <div class="feature-card">
+          <div class="feature-header">
+            <i class="fas fa-map-marked-alt"></i>
+            <h3>Heat Map</h3>
+          </div>
+          <div class="feature-body">
+            <div class="heatmap-preview" id="heatmapContainer" style="position: relative;">
+              <div id="heatSpots" style="position: relative; width: 100%; height: 100%;"></div>
+              <span style="position: absolute; bottom: 10px; left: 12px; font-size: 0.7rem; background: rgba(0,0,0,0.5); color: white; padding: 2px 8px; border-radius: 20px;">Live crisis clusters</span>
+            </div>
+            <button id="refreshHeatmapBtn" class="btn-sm" style="margin-top: 16px; width: 100%;"><i class="fas fa-sync-alt"></i> Refresh heat signature</button>
+          </div>
+        </div>
+
+        <!-- Sentiment Chart Card -->
+        <div class="feature-card">
+          <div class="feature-header">
+            <i class="fas fa-chart-line"></i>
+            <h3>Sentiment Chart</h3>
+          </div>
+          <div class="feature-body">
+            <div style="margin-bottom: 20px;">
+              <div style="display: flex; justify-content: space-between;"><span>Negative Sentiment Index</span><span id="fearValue">64%</span></div>
+              <div class="sentiment-bar"><div class="sentiment-fill" id="fearFill" style="width: 64%;"></div></div>
+              <div style="display: flex; justify-content: space-between; margin-top: 12px;"><span>Positive / Neutral Sentiment</span><span id="calmValue">36%</span></div>
+              <div class="sentiment-bar"><div class="sentiment-fill calm-fill" id="calmFill" style="width: 36%; background: #34a853;"></div></div>
+            </div>
+            <div style="background: #1e293b; border-radius: 8px; padding: 14px; margin: 8px 0;">
+              <i class="fas fa-chart-simple"></i> <strong>Trend:</strong> <span id="sentimentTrend">Elevated urgency detected</span>
+            </div>
+            <button id="simulateSentimentBtn" class="btn-sm" style="width: 100%;"><i class="fas fa-chart-line"></i> Update with live data</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Citizen Upload (working image upload) -->
+  <div class="container">
+    <div class="upload-zone">
+      <i class="fas fa-cloud-upload-alt" style="font-size: 2.5rem; color: #3b82f6;"></i>
+      <h3 style="margin: 12px 0 8px; color:#e2e8f0;">Citizen Disaster Reporting</h3>
+      <p style="color: #94a3b8; margin-bottom: 20px;">Upload images of emergency situations. AI analysis generates real-time alerts and updates threat assessment.</p>
+      <input type="file" id="disasterImageInput" accept="image/jpeg, image/png, image/jpg, image/webp" style="display: none;">
+      <label for="disasterImageInput" class="upload-label"><i class="fas fa-camera"></i> Select Image</label>
+      <div id="imagePreview"></div>
+      <div id="uploadFeedback" style="display: none; margin-top: 20px;" class="toast-msg"></div>
+      <p style="font-size: 0.75rem; margin-top: 20px; color:#64748b;"><i class="fas fa-shield-alt"></i> Image analysis contributes to alert generation and threat mapping</p>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="container footer-content">
+    <div class="footer-col">
+      <div class="logo" style="font-size: 1.6rem;">Respondr<span style="color:#3b82f6;">.</span></div>
+      <p style="margin-top: 12px;">AI for emergency response</p>
+    </div>
+    <div class="footer-col">
+      <h4>Capabilities</h4>
+      <p>Real-time Alerts · Threat Mapping · Sentiment Analysis</p>
+    </div>
+    <div class="footer-col">
+      <h4>About</h4>
+      <p>Emergency Response Platform</p>
+      <p>© 2025 Respondr · All rights reserved</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ---------- AI ALERTS simulation (no fake stats) ----------
+  const alertContainer = document.getElementById('alertFeedContainer');
+  const simulateAlertBtn = document.getElementById('simulateAlertBtn');
+  const disasterTypes = [
+    { icon: "fas fa-tree", name: "Wildfire", region: "Oregon", detail: "Rapid spread, evacuation orders" },
+    { icon: "fas fa-water", name: "Flash flood", region: "Assam, India", detail: "Water level rising" },
+    { icon: "fas fa-mountain", name: "Landslide", region: "Uttarakhand", detail: "Highway blocked" },
+    { icon: "fas fa-wind", name: "Cyclone", region: "Bay of Bengal", detail: "Storm surge expected" },
+    { icon: "fas fa-building", name: "Structural collapse", region: "Naples", detail: "Rescue teams alerted" },
+    { icon: "fas fa-bolt", name: "Severe thunderstorm", region: "Kansas", detail: "Tornado risk" }
+  ];
+  
+  function addNewAlert() {
+    const rand = Math.floor(Math.random() * disasterTypes.length);
+    const d = disasterTypes[rand];
+    const mins = Math.floor(Math.random() * 8) + 1;
+    const alertDiv = document.createElement('div');
+    alertDiv.className = 'alert-item';
+    alertDiv.innerHTML = `<i class="${d.icon}" style="color:#3b82f6;"></i> <strong>${d.name}</strong> – ${d.region} · ${d.detail} <span style="float: right;">${mins} min ago</span>`;
+    alertContainer.prepend(alertDiv);
+    if (alertContainer.children.length > 5) alertContainer.removeChild(alertContainer.lastChild);
+    showToast("🚨 New AI alert generated: " + d.name + " detected.", false);
+  }
+  simulateAlertBtn.addEventListener('click', addNewAlert);
+  
+  // ---------- HEATMAP simulation ----------
+  const heatmapContainer = document.getElementById('heatmapContainer');
+  const refreshHeatmapBtn = document.getElementById('refreshHeatmapBtn');
+  
+  function generateHeatSpots() {
+    const container = heatmapContainer;
+    const existing = container.querySelectorAll('.heat-spot');
+    existing.forEach(spot => spot.remove());
+    const spotCount = Math.floor(Math.random() * 5) + 4;
+    for (let i = 0; i < spotCount; i++) {
+      const spot = document.createElement('div');
+      spot.className = 'heat-spot';
+      const size = Math.floor(Math.random() * 55) + 30;
+      const left = Math.random() * 80 + 10;
+      const top = Math.random() * 70 + 15;
+      spot.style.width = `${size}px`;
+      spot.style.height = `${size}px`;
+      spot.style.left = `${left}%`;
+      spot.style.top = `${top}%`;
+      spot.style.position = 'absolute';
+      spot.style.opacity = '0.7';
+      container.style.position = 'relative';
+      container.appendChild(spot);
+    }
+  }
+  refreshHeatmapBtn.addEventListener('click', () => { generateHeatSpots(); showToast("🌡️ Heatmap refreshed with latest social clusters", false); });
+  generateHeatSpots();
+  
+  // ---------- SENTIMENT simulation ----------
+  const fearFill = document.getElementById('fearFill');
+  const fearValueSpan = document.getElementById('fearValue');
+  const calmFill = document.getElementById('calmFill');
+  const calmValueSpan = document.getElementById('calmValue');
+  const sentimentTrendSpan = document.getElementById('sentimentTrend');
+  const simSentimentBtn = document.getElementById('simulateSentimentBtn');
+  
+  function updateSentiment() {
+    const fear = Math.floor(Math.random() * 55) + 30;
+    const calm = 100 - fear;
+    fearFill.style.width = `${fear}%`;
+    fearValueSpan.innerText = `${fear}%`;
+    calmFill.style.width = `${calm}%`;
+    calmValueSpan.innerText = `${calm}%`;
+    const trends = ["↑ Panic rising due to earthquake tweets", "→ Steady alertness, localized distress", "↓ Calm restored after official update", "⚠️ High anxiety near disaster zones", "📈 Urgency increasing from fire reports"];
+    sentimentTrendSpan.innerText = trends[Math.floor(Math.random() * trends.length)];
+  }
+  simSentimentBtn.addEventListener('click', () => { updateSentiment(); showToast("📊 Sentiment recalculated from NLP models", false); });
+  
+  // ---------- IMAGE UPLOAD (working + alerts) ----------
+  const fileInput = document.getElementById('disasterImageInput');
+  const previewDiv = document.getElementById('imagePreview');
+  const feedbackSpan = document.getElementById('uploadFeedback');
+  
+  function showToast(message, isError = false) {
+    feedbackSpan.textContent = message;
+    feedbackSpan.style.display = 'inline-block';
+    feedbackSpan.style.backgroundColor = isError ? '#dc2626' : '#3b82f6';
+    setTimeout(() => { feedbackSpan.style.display = 'none'; }, 4000);
+  }
+  
+  fileInput.addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (file.size > 8 * 1024 * 1024) { showToast("Image too large (max 8MB)", true); return; }
+    if (!file.type.startsWith('image/')) { showToast("Please select a valid image", true); return; }
+    previewDiv.innerHTML = '';
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+      const img = document.createElement('img');
+      img.src = ev.target.result;
+      img.classList.add('preview-img');
+      const removeBtn = document.createElement('button');
+      removeBtn.innerHTML = '<i class="fas fa-trash-alt"></i> Remove';
+      removeBtn.style.background = '#e9e9ef';
+      removeBtn.style.border = 'none';
+      removeBtn.style.padding = '6px 14px';
+      removeBtn.style.borderRadius = '40px';
+      removeBtn.style.marginTop = '8px';
+      removeBtn.style.cursor = 'pointer';
+      removeBtn.onclick = () => { previewDiv.innerHTML = ''; fileInput.value = ''; showToast("Image removed", false); };
+      previewDiv.appendChild(img);
+      previewDiv.appendChild(removeBtn);
+      
+      // Simulate AI analysis: new alert + refresh heatmap + sentiment shift
+      const events = ["Flooding", "Wildfire", "Storm damage", "Building collapse", "Landslide"];
+      const randomEvent = events[Math.floor(Math.random() * events.length)];
+      const locs = ["Southeast Asia", "California", "Southern Europe", "Himalayan foothills"];
+      const randLoc = locs[Math.floor(Math.random() * locs.length)];
+      const newAlertDiv = document.createElement('div');
+      newAlertDiv.className = 'alert-item';
+      newAlertDiv.innerHTML = `<i class="fas fa-camera"></i> <strong>Citizen visual report: ${randomEvent}</strong> – ${randLoc} · AI image classification <span style="float: right;">just now</span>`;
+      alertContainer.prepend(newAlertDiv);
+      if (alertContainer.children.length > 6) alertContainer.removeChild(alertContainer.lastChild);
+      generateHeatSpots();
+      updateSentiment();
+      showToast(`✅ Image analyzed. ${randomEvent} alert added to feed.`, false);
+    };
+    reader.readAsDataURL(file);
+  });
+  
+  // smooth scroll + dashboard button
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      const href = this.getAttribute('href');
+      if (href !== "#" && href !== "" && href.startsWith('#')) {
+        const target = document.getElementById(href.substring(1));
+        if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+      }
+    });
+  });
+  const dashBtn = document.querySelector('.btn-primary');
+  if (dashBtn) dashBtn.addEventListener('click', (e) => { e.preventDefault(); showToast("📊 Dashboard demo: AI Alerts, Heatmap & Sentiment active", false); });
+</script>
+</body>
+</html>
