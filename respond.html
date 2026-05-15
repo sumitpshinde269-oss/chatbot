@@ -2,358 +2,299 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Respondr | Complete Emergency Response Platform</title>
-  <!-- Google Fonts + Font Awesome + Leaflet -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Respondr | Operations Console</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
       font-family: 'Inter', sans-serif;
-      background: #0a0e27;
-      color: #e2e8f0;
-      transition: all 0.2s;
+      background: #F9FAFB !important;
+      color: #111827 !important;
     }
-    body.dark { background: #0a0e27; color: #e2e8f0; }
-    body.dark .card, body.dark .panel, body.dark .modal-content { background: #131828; border-color: #1e293b; }
-    body.dark .social-post, body.dark .alert-item { background: #131828; }
-    
-    /* Layout */
-    .app-container { max-width: 1600px; margin: 0 auto; padding: 20px 24px; }
-    
-    /* Header */
+
+    .app-container {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 24px 28px;
+    }
+
     .main-header {
-      display: flex; justify-content: space-between; align-items: center;
-      flex-wrap: wrap; gap: 16px; margin-bottom: 24px;
-      padding-bottom: 16px; border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 28px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #E5E7EB !important;
     }
-    .logo { font-size: 1.8rem; font-weight: 800; color: #3b82f6; }
-    .nav-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #F97316 !important;
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 8px;
+    }
+
     .tab-btn {
-      padding: 10px 24px; border-radius: 8px; border: 1px solid #1e293b;
-      background: #131828; cursor: pointer; font-weight: 600;
-      transition: 0.2s; color: #94a3b8;
+      padding: 8px 20px;
+      border-radius: 8px;
+      border: 1px solid #E5E7EB !important;
+      background: #FFFFFF !important;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 0.85rem;
+      color: #6B7280 !important;
+      transition: 0.2s;
     }
-    body.dark .tab-btn { background: #131828; color: #94a3b8; border-color: #1e293b; }
-    .tab-btn.active { background: #3b82f6; color: white; border-color: #3b82f6; }
-    .theme-toggle {
-      padding: 10px 20px; border-radius: 8px; border: 1px solid #1e293b;
-      background: #131828; cursor: pointer; font-weight: 500; color: #94a3b8;
+
+    .tab-btn.active {
+      background: #F97316 !important;
+      color: white !important;
+      border-color: #F97316 !important;
     }
+
     .page-links {
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
-      margin-top: 16px;
+      margin-bottom: 28px;
     }
+
     .page-link {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 10px 18px;
+      padding: 6px 16px;
       border-radius: 8px;
-      background: white;
-      border: 1px solid #e2e8f0;
-      color: #1e293b;
+      background: #FFFFFF !important;
+      border: 1px solid #E5E7EB !important;
+      color: #111827 !important;
       text-decoration: none;
+      font-weight: 500;
+      font-size: 0.8rem;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+
+    .stat-card {
+      background: #FFFFFF !important;
+      border-radius: 12px;
+      padding: 18px;
+      border: 1px solid #E5E7EB !important;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .stat-card h4 {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      color: #6B7280 !important;
+      margin-bottom: 6px;
+    }
+
+    .stat-number {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #F97316 !important;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 320px 1fr 340px;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+
+    @media (max-width: 1100px) {
+      .dashboard-grid { grid-template-columns: 1fr; }
+    }
+
+    .panel {
+      background: #FFFFFF !important;
+      border-radius: 14px;
+      border: 1px solid #E5E7EB !important;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+      overflow: hidden;
+      height: 520px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .panel-header {
+      padding: 14px 20px;
+      border-bottom: 1px solid #E5E7EB !important;
       font-weight: 600;
-      transition: 0.2s;
+      background: #F9FAFB !important;
+      color: #111827 !important;
     }
-    .page-link:hover {
-      background: #fff7ed;
-      border-color: #3b82f6;
-      color: #0f172a;
+
+    .social-feed, .alert-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px;
     }
-    body.dark .page-link {
-      background: #1e293b;
-      color: #e2e8f0;
-      border-color: #475569;
+
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: #9CA3AF !important;
+      font-size: 0.85rem;
     }
-    
-    /* Cards & Panels */
-    .card { background: #131828; border-radius: 12px; border: 1px solid #1e293b; padding: 24px; margin-bottom: 24px; }
-    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 24px; }
-    .stat-card { background: #131828; border-radius: 12px; padding: 20px; border: 1px solid #1e293b; }
-    body.dark .stat-card { background: #131828; }
-    .stat-number { font-size: 2rem; font-weight: 800; color: #3b82f6; }
-    
-    /* 3-Column Dashboard */
-    .dashboard-grid { display: grid; grid-template-columns: 320px 1fr 340px; gap: 24px; margin-bottom: 24px; }
-    @media (max-width: 1100px) { .dashboard-grid { grid-template-columns: 1fr; gap: 20px; } }
-    
-    .panel { background: #131828; border-radius: 12px; border: 1px solid #1e293b; overflow: hidden; height: 550px; display: flex; flex-direction: column; }
-    .panel-header { padding: 16px 20px; border-bottom: 1px solid #1e293b; font-weight: 700; background: #0f172a; color: #e2e8f0; }
-    .social-feed, .alert-list { flex: 1; overflow-y: auto; padding: 12px; }
-    .social-post, .alert-item {
-      background: #1e293b; border-left: 4px solid #3b82f6; border-radius: 8px;
-      padding: 12px; margin-bottom: 10px; font-size: 0.85rem; color: #e2e8f0;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+
+    #threatMap {
+      height: 100%;
+      width: 100%;
     }
-    #threatMap { height: 100%; width: 100%; background: #0f172a; border-radius: 0; }
-    
-    /* Settings Panel */
-    .setting-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid #f0f0f0; }
-    input[type="range"] { width: 200px; }
-    .toggle-switch { position: relative; display: inline-block; width: 50px; height: 24px; }
-    .toggle-switch input { opacity: 0; width: 0; height: 0; }
-    .slider-round { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; border-radius: 34px; transition: 0.2s; }
-    .slider-round:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; border-radius: 50%; transition: 0.2s; }
-    input:checked + .slider-round { background-color: #3b82f6; }
-    input:checked + .slider-round:before { transform: translateX(26px); }
-    
-    /* Modals */
-    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; justify-content: center; align-items: center; }
-    .modal-content { background: #131828; border-radius: 12px; max-width: 600px; width: 90%; padding: 28px; max-height: 80vh; overflow-y: auto; border: 1px solid #1e293b; }
-    .toast { position: fixed; bottom: 30px; right: 30px; background: #3b82f6; color: white; padding: 12px 24px; border-radius: 8px; opacity: 0; transition: opacity 0.2s; z-index: 1100; }
-    .btn-primary { background: #3b82f6; color: white; border: none; padding: 10px 24px; border-radius: 8px; cursor: pointer; font-weight: 600; }
-    .btn-primary:hover { background: #2563eb; }
-    .btn-outline { background: transparent; border: 1px solid #3b82f6; color: #3b82f6; padding: 8px 20px; border-radius: 8px; cursor: pointer; }
-    .btn-outline:hover { background: #1e293b; }
-    .fake-badge { background: #fef3c7; color: #d97706; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; margin-left: 8px; }
-    
-    .hidden { display: none; }
-    .upload-zone { border: 2px dashed #fcd9b6; border-radius: 20px; padding: 20px; text-align: center; margin-top: 16px; background: #fefaf5; }
+
+    .hidden {
+      display: none;
+    }
+
+    .info-note {
+      background: #F3F4F6 !important;
+      padding: 16px;
+      border-radius: 8px;
+      margin-top: 20px;
+      border-left: 3px solid #F97316 !important;
+    }
+
+    footer {
+      margin-top: 32px;
+      text-align: center;
+      font-size: 0.7rem;
+      color: #9CA3AF !important;
+      border-top: 1px solid #E5E7EB !important;
+      padding-top: 24px;
+    }
   </style>
 </head>
 <body>
 <div class="app-container">
-  <!-- Header -->
   <div class="main-header">
-    <div class="logo"><i class="fas fa-broadcast-tower"></i> Respondr</div>
+    <div class="logo">Respondr Console</div>
     <div class="nav-tabs">
       <button class="tab-btn active" data-tab="dashboard">Dashboard</button>
       <button class="tab-btn" data-tab="settings">Settings</button>
-      <button class="tab-btn" data-tab="moderation">Moderation</button>
-      <button class="tab-btn" data-tab="analytics">Analytics</button>
     </div>
-    <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i> Toggle Theme</button>
   </div>
   <div class="page-links">
     <a class="page-link" href="index.html"><i class="fas fa-home"></i> Home</a>
-    <a class="page-link" href="dash.html"><i class="fas fa-chart-bar"></i> Classic Dashboard</a>
+    <a class="page-link" href="dash.html"><i class="fas fa-chart-bar"></i> Dashboard</a>
     <a class="page-link" href="sett.html"><i class="fas fa-sliders-h"></i> Settings</a>
     <a class="page-link" href="preview.html"><i class="fas fa-eye"></i> Preview</a>
   </div>
 
-  <!-- Stats Bar (visible on all tabs) -->
   <div class="stats-grid">
     <div class="stat-card"><h4>Total Posts</h4><div class="stat-number" id="totalPosts">0</div></div>
     <div class="stat-card"><h4>Active Alerts</h4><div class="stat-number" id="activeAlerts">0</div></div>
-    <div class="stat-card"><h4>AI Confidence</h4><div class="stat-number" id="confidenceAvg">0<span style="font-size:1rem;">%</span></div></div>
-    <div class="stat-card"><h4>Flagged Content</h4><div class="stat-number" id="fakeFlagged">0</div></div>
+    <div class="stat-card"><h4>Confidence</h4><div class="stat-number" id="confidenceAvg">—</div></div>
   </div>
 
-  <!-- ==================== DASHBOARD TAB ==================== -->
   <div id="dashboardTab">
     <div class="dashboard-grid">
-      <!-- Left: Social Feed -->
       <div class="panel">
-        <div class="panel-header"><i class="fas fa-rss"></i> Live Social Feed</div>
-        <div class="social-feed" id="socialFeed"></div>
-        <div class="upload-zone" style="margin: 12px; padding: 12px;">
-          <input type="file" id="citizenImage" accept="image/*" style="display:none;">
-          <button class="btn-outline" id="uploadImageBtn"><i class="fas fa-camera"></i> Citizen Report (Image)</button>
+        <div class="panel-header"><i class="fas fa-rss"></i> Live Feed</div>
+        <div class="social-feed" id="socialFeed">
+          <div class="empty-state"><i class="fas fa-inbox"></i><p>Awaiting data stream</p></div>
         </div>
       </div>
-      <!-- Center: Heat Map -->
-      <div class="panel" style="padding: 0;">
-        <div class="panel-header"><i class="fas fa-map"></i> Threat Heat Map</div>
-        <div id="threatMap" style="height: calc(100% - 52px);"></div>
-      </div>
-      <!-- Right: Alerts Panel -->
       <div class="panel">
-        <div class="panel-header"><i class="fas fa-bell"></i> AI Alerts</div>
-        <div class="alert-list" id="alertPanel"></div>
-        <div style="padding: 12px; border-top: 1px solid #1e293b;">
-          <button class="btn-primary" id="viewAllAlertsBtn" style="width:100%;">View All Alerts →</button>
+        <div class="panel-header"><i class="fas fa-map"></i> Geospatial View</div>
+        <div id="threatMap"></div>
+      </div>
+      <div class="panel">
+        <div class="panel-header"><i class="fas fa-bell"></i> Alerts</div>
+        <div class="alert-list" id="alertList">
+          <div class="empty-state"><i class="fas fa-check-circle"></i><p>No active alerts</p></div>
         </div>
       </div>
-    </div>
-    <!-- Sentiment Chart -->
-    <div class="card">
-      <h3><i class="fas fa-chart-line"></i> Sentiment Analysis</h3>
-      <canvas id="sentimentChart" height="120" style="max-height: 200px;"></canvas>
     </div>
   </div>
 
-  <!-- ==================== SETTINGS TAB ==================== -->
   <div id="settingsTab" class="hidden">
-    <div class="card">
-      <h3><i class="fas fa-sliders-h"></i> Alert Thresholds</h3>
-      <div class="setting-row"><span>📊 Min posts to trigger alert</span><input type="range" id="thresholdSlider" min="1" max="20" value="3"><span id="thresholdVal">3</span></div>
-      <div class="setting-row"><span>⏱️ Time window (minutes)</span><input type="range" id="windowSlider" min="1" max="30" value="5"><span id="windowVal">5 min</span></div>
-    </div>
-    <div class="card">
-      <h3><i class="fas fa-exclamation-triangle"></i> Severity Mapping</h3>
-      <div class="setting-row"><span>🟢 Low</span><select id="lowSeverity"><option>Minor event</option><option selected>Watch advisory</option></select></div>
-      <div class="setting-row"><span>🟠 Medium</span><select id="medSeverity"><option selected>Localized threat</option><option>Evacuation possible</option></select></div>
-      <div class="setting-row"><span>🔴 High</span><select id="highSeverity"><option selected>Immediate action</option><option>Shelter in place</option></select></div>
-      <div class="setting-row"><span>💀 Critical</span><select id="criticalSeverity"><option selected>Mass casualty risk</option><option>National emergency</option></select></div>
-    </div>
-    <div class="card">
-      <h3><i class="fas fa-bell"></i> Notification Channels</h3>
-      <div class="setting-row"><span>📧 Email Alerts</span><label class="toggle-switch"><input type="checkbox" id="emailToggle" checked><span class="slider-round"></span></label></div>
-      <div class="setting-row"><span>📱 SMS Alerts</span><label class="toggle-switch"><input type="checkbox" id="smsToggle" checked><span class="slider-round"></span></label></div>
-      <div class="setting-row"><span>🔗 Webhook</span><label class="toggle-switch"><input type="checkbox" id="webhookToggle"><span class="slider-round"></span></label></div>
-    </div>
-    <div class="card">
-      <h3><i class="fas fa-shield-alt"></i> Fake News Detection</h3>
-      <div class="setting-row"><span>Enable Detection</span><label class="toggle-switch"><input type="checkbox" id="fakeNewsToggle" checked><span class="slider-round"></span></label></div>
-      <div class="setting-row"><span>Sensitivity</span><input type="range" id="fakeSensitivity" min="0" max="100" value="72"><span id="sensVal">72%</span></div>
-      <div class="setting-row"><span>Action on Flagged</span><select id="fakeAction"><option selected>Flag for review</option><option>Reduce confidence</option><option>Exclude from alerts</option></select></div>
-    </div>
-    <div class="card"><button class="btn-primary" id="saveSettingsBtn">Save All Settings</button></div>
-  </div>
-
-  <!-- ==================== MODERATION TAB ==================== -->
-  <div id="moderationTab" class="hidden">
-    <div class="card">
-      <h3><i class="fas fa-flag"></i> Flagged Content for Review</h3>
-      <div id="moderationQueue"></div>
+    <div class="panel" style="height: auto; padding: 24px;">
+      <h3 style="margin-bottom: 20px;">Alert Configuration</h3>
+      <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+        <span>Post threshold:</span><span id="displayThreshold">3</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+        <span>Time window (min):</span><span id="displayWindow">5</span>
+      </div>
+      <div class="info-note">
+        <i class="fas fa-info-circle"></i> Edit full settings in <a href="sett.html" style="color: #F97316;">Settings page</a>
+      </div>
     </div>
   </div>
 
-  <!-- ==================== ANALYTICS TAB ==================== -->
-  <div id="analyticsTab" class="hidden">
-    <div class="card">
-      <h3>Alert Trends (Last 7 Days)</h3>
-      <canvas id="trendChart" height="150"></canvas>
-    </div>
-    <div class="card">
-      <h3>Response Performance</h3>
-      <div class="setting-row"><span>Avg Response Time:</span><span>4.2 minutes</span></div>
-      <div class="setting-row"><span>Alerts Resolved:</span><span>89%</span></div>
-      <div class="setting-row"><span>Fake News Accuracy:</span><span>94.3%</span></div>
-    </div>
-  </div>
+  <footer>
+    <p>Respondr Operations Console — Data displayed reflects active intelligence streams</p>
+  </footer>
 </div>
 
-<div id="alertModal" class="modal"><div class="modal-content" id="modalContent"></div></div>
-<div id="toastMsg" class="toast"></div>
-
 <script>
-  // ---------- INITIALIZATION ----------
-  let map;
-  let sentimentChart, trendChart;
-  let settings = { postThreshold: 3, timeWindow: 5, lowSeverity: "Watch advisory", medSeverity: "Localized threat", highSeverity: "Immediate action", criticalSeverity: "Mass casualty risk", email: true, sms: true, webhook: false, fakeNewsEnabled: true, fakeSensitivity: 72, fakeAction: "Flag for review" };
-  
-  function loadSettings() { const saved = localStorage.getItem('respondr_settings'); if(saved) { try { const s = JSON.parse(saved); settings = { ...settings, ...s }; } catch(e){} } applySettingsToUI(); }
-  function saveSettings() { localStorage.setItem('respondr_settings', JSON.stringify(settings)); showToast("Settings saved! Dashboard will use new thresholds."); }
-  function applySettingsToUI() {
-    document.getElementById('thresholdSlider').value = settings.postThreshold; document.getElementById('thresholdVal').innerText = settings.postThreshold;
-    document.getElementById('windowSlider').value = settings.timeWindow; document.getElementById('windowVal').innerText = settings.timeWindow + " min";
-    document.getElementById('lowSeverity').value = settings.lowSeverity; document.getElementById('medSeverity').value = settings.medSeverity;
-    document.getElementById('highSeverity').value = settings.highSeverity; document.getElementById('criticalSeverity').value = settings.criticalSeverity;
-    document.getElementById('emailToggle').checked = settings.email; document.getElementById('smsToggle').checked = settings.sms;
-    document.getElementById('webhookToggle').checked = settings.webhook; document.getElementById('fakeNewsToggle').checked = settings.fakeNewsEnabled;
-    document.getElementById('fakeSensitivity').value = settings.fakeSensitivity; document.getElementById('sensVal').innerText = settings.fakeSensitivity + "%";
-    document.getElementById('fakeAction').value = settings.fakeAction;
-  }
-  function collectSettingsFromUI() {
-    settings.postThreshold = parseInt(document.getElementById('thresholdSlider').value);
-    settings.timeWindow = parseInt(document.getElementById('windowSlider').value);
-    settings.lowSeverity = document.getElementById('lowSeverity').value;
-    settings.medSeverity = document.getElementById('medSeverity').value;
-    settings.highSeverity = document.getElementById('highSeverity').value;
-    settings.criticalSeverity = document.getElementById('criticalSeverity').value;
-    settings.email = document.getElementById('emailToggle').checked;
-    settings.sms = document.getElementById('smsToggle').checked;
-    settings.webhook = document.getElementById('webhookToggle').checked;
-    settings.fakeNewsEnabled = document.getElementById('fakeNewsToggle').checked;
-    settings.fakeSensitivity = parseInt(document.getElementById('fakeSensitivity').value);
-    settings.fakeAction = document.getElementById('fakeAction').value;
-  }
-  
-  // Data stores
-  let alertsList = [];
-  let socialPosts = [];
-  let flaggedQueue = [];
-  let totalPostsCount = 0;
-  let activeAlerts = 0;
-  
-  function updateStats() { document.getElementById('totalPosts').innerText = totalPostsCount; document.getElementById('activeAlerts').innerText = activeAlerts; document.getElementById('fakeFlagged').innerText = flaggedQueue.length; }
-  
-  function renderSocialFeed() {
-    const container = document.getElementById('socialFeed');
-    if (socialPosts.length === 0) {
-      container.innerHTML = '<div style="padding:24px; color:#64748b;">No live social feed data available yet.</div>';
-      return;
-    }
-    container.innerHTML = socialPosts.map(p => `<div class="social-post" style="border-left-color:#3b82f6"><div class="post-time"><i class="fab fa-twitter"></i> ${p.user} · ${p.time}</div><div class="post-text">${p.text}</div><span class="post-badge" style="background:#1e293b;color:#3b82f6;">${p.type}</span>${p.fakeFlagged ? '<span class="fake-badge"><i class="fas fa-flag"></i> Flagged</span>' : ''}</div>`).join('');
-  }
-  
-  function renderAlerts() {
-    const container = document.getElementById('alertPanel');
-    if (alertsList.length === 0) {
-      container.innerHTML = '<div style="padding:24px; color:#64748b;">No active alerts at the moment.</div>';
-    } else {
-      container.innerHTML = alertsList.map(a => `<div class="alert-item" data-id="${a.id}"><div class="alert-title"><strong>${a.title}</strong> <span style="color:#3b82f6;">[${a.severity}]</span></div><div>🎯 ${a.confidence}% confidence · ${a.time}</div><div class="alert-action" style="color:#3b82f6; font-size:0.8rem;">🚨 ${a.action}</div><button class="btn-outline" style="margin-top:8px; padding:4px 12px; font-size:0.7rem;" onclick="viewAlert(${a.id})">View Details</button></div>`).join('');
-    }
-    activeAlerts = alertsList.length; updateStats();
-  }
-  
-  function renderModerationQueue() {
-    const container = document.getElementById('moderationQueue');
-    if(flaggedQueue.length === 0) { container.innerHTML = '<p>✅ No flagged content pending review.</p>'; return; }
-    container.innerHTML = flaggedQueue.map((p, idx) => `<div class="alert-item"><strong>${p.text}</strong><div>User: ${p.user} | Score: ${p.score}%</div><div><button class="btn-outline" style="margin:4px;" onclick="approvePost(${idx})">✅ Approve</button><button class="btn-outline" style="margin:4px;" onclick="rejectPost(${idx})">❌ Reject as Fake</button></div></div>`).join('');
-  }
-  
-  window.viewAlert = function(id) {
-    const alert = alertsList.find(a => a.id === id);
-    const modal = document.getElementById('alertModal');
-    document.getElementById('modalContent').innerHTML = `<h3>${alert.title}</h3><p>Severity: ${alert.severity}</p><p>Confidence: ${alert.confidence}%</p><p>Posts triggering: ${alert.posts} posts in ${settings.timeWindow} min</p><p>Recommended: ${alert.action}</p><div class="setting-row"><button class="btn-primary" onclick="closeModal()">Close</button><button class="btn-outline" onclick="markResolved(${id})">Mark Resolved</button></div>`;
-    modal.style.display = 'flex';
-  };
-  window.closeModal = function() { document.getElementById('alertModal').style.display = 'none'; };
-  window.markResolved = function(id) { alertsList = alertsList.filter(a => a.id !== id); renderAlerts(); closeModal(); showToast("Alert marked as resolved"); };
-  window.approvePost = function(idx) { flaggedQueue.splice(idx,1); renderModerationQueue(); showToast("Post approved & added to training data"); };
-  window.rejectPost = function(idx) { flaggedQueue.splice(idx,1); renderModerationQueue(); showToast("Post rejected as misinformation"); };
-  
-  function citizenImageUpload() { document.getElementById('citizenImage').click(); }
-  document.getElementById('citizenImage').addEventListener('change', (e) => {
-    if (e.target.files[0]) {
-      showToast("📸 Image uploaded. No live processing available in simple mode.");
-    }
+  const tabs = document.querySelectorAll('.tab-btn');
+  const dashboardDiv = document.getElementById('dashboardTab');
+  const settingsDiv = document.getElementById('settingsTab');
+  tabs.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabs.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const tab = btn.dataset.tab;
+      if (tab === 'dashboard') {
+        dashboardDiv.classList.remove('hidden');
+        settingsDiv.classList.add('hidden');
+      } else {
+        dashboardDiv.classList.add('hidden');
+        settingsDiv.classList.remove('hidden');
+        loadSettingsDisplay();
+      }
+    });
   });
-  document.getElementById('uploadImageBtn').addEventListener('click', citizenImageUpload);
-  
-  // Map initialization
-  function initMap() { map = L.map('threatMap').setView([27.5, 78.0], 5); L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { attribution: '&copy; OpenStreetMap' }).addTo(map); }
-  
-  // Charts
-  function initCharts() {
-    const ctx = document.getElementById('sentimentChart').getContext('2d');
-    sentimentChart = new Chart(ctx, { type: 'line', data: { labels: [], datasets: [{ label: 'Post Volume', data: [], borderColor: '#3b82f6', tension: 0.3 }, { label: 'Negative Sentiment', data: [], borderColor: '#3b82f6', tension: 0.3 }] }, options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { display: false } } } });
-    const trendCtx = document.getElementById('trendChart').getContext('2d');
-    trendChart = new Chart(trendCtx, { type: 'bar', data: { labels: [], datasets: [{ label: 'Alerts Generated', data: [], backgroundColor: '#3b82f6' }] }, options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { display: false } } } });
+
+  const map = L.map('threatMap').setView([20.5937, 78.9629], 5);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; OpenStreetMap'
+  }).addTo(map);
+
+  function loadSettingsDisplay() {
+    const saved = localStorage.getItem('respondr_settings');
+    let thresh = 3, win = 5;
+    if (saved) {
+      try {
+        const cfg = JSON.parse(saved);
+        thresh = cfg.postThreshold || 3;
+        win = cfg.timeWindow || 5;
+      } catch(e) {}
+    }
+    document.getElementById('displayThreshold').innerText = thresh;
+    document.getElementById('displayWindow').innerText = win;
   }
-  
-  // Theme
-  document.getElementById('themeToggle').addEventListener('click', () => { document.body.classList.toggle('dark'); localStorage.setItem('respondr_theme', document.body.classList.contains('dark') ? 'dark' : 'light'); });
-  if(localStorage.getItem('respondr_theme') === 'dark') document.body.classList.add('dark');
-  
-  // Tab switching
-  document.querySelectorAll('.tab-btn').forEach(btn => { btn.addEventListener('click', () => { document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); document.getElementById('dashboardTab').classList.add('hidden'); document.getElementById('settingsTab').classList.add('hidden'); document.getElementById('moderationTab').classList.add('hidden'); document.getElementById('analyticsTab').classList.add('hidden'); document.getElementById(btn.dataset.tab + 'Tab').classList.remove('hidden'); if(btn.dataset.tab === 'moderation') renderModerationQueue(); if(btn.dataset.tab === 'analytics' && trendChart) trendChart.update(); }); });
-  
-  document.getElementById('viewAllAlertsBtn').addEventListener('click', () => { showToast("Showing all active alerts. Click any alert for details."); });
-  document.getElementById('saveSettingsBtn').addEventListener('click', () => { collectSettingsFromUI(); saveSettings(); showToast("Settings saved! Alert thresholds updated."); });
-  document.getElementById('thresholdSlider').addEventListener('input', (e) => document.getElementById('thresholdVal').innerText = e.target.value);
-  document.getElementById('windowSlider').addEventListener('input', (e) => document.getElementById('windowVal').innerText = e.target.value + " min");
-  document.getElementById('fakeSensitivity').addEventListener('input', (e) => document.getElementById('sensVal').innerText = e.target.value + "%");
-  
-  function showToast(msg) { const toast = document.getElementById('toastMsg'); toast.textContent = msg; toast.style.opacity = '1'; setTimeout(() => toast.style.opacity = '0', 3000); }
-  
-  // Initialize page
-  loadSettings();
-  initMap();
-  initCharts();
-  renderSocialFeed();
-  renderAlerts();
-  updateStats();
+  loadSettingsDisplay();
+
+  document.getElementById('totalPosts').innerText = '0';
+  document.getElementById('activeAlerts').innerText = '0';
+  document.getElementById('confidenceAvg').innerHTML = '—';
 </script>
 </body>
 </html>

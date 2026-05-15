@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  passwordHash  String
+  name          String?
+  role          Role      @default(USER)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  settings      UserSetting?
+  posts         Post[]
+  resolvedAlerts Alert[]   @relation("ResolvedBy")
+}
+
+model UserSetting {
+  id                 String   @id @default(cuid())
+  userId             String   @unique
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  postThreshold      Int      @default(3)
+  timeWindowMinutes  Int      @default(5)
+  emailEnabled       Boolean  @default(true)
+  smsEnabled         Boolean  @default(true)
+  webhookEnabled     Boolean  @default(false)
+  webhookUrl         String?
+  fakeNewsEnabled    Boolean  @default(true)
+  fakeNewsSensitivity Int     @default(72)
+  fakeNewsAction     String   @default("flag_only")
+  theme              String   @default("dark")
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model Post {
+  id            String   @id @default(cuid())
+  text          String
+  userId        String?
+  user          User?    @relation(fields: [userId], references: [id])
+  source        String   @default("citizen")
+  location      Json?    
+  imageUrl      String?
+  type          String?  
+  severity      String?  
+  confidence    Float?   
+  isFakeNews    Boolean  @default(false)
+  fakeNewsScore Float?   
+  createdAt     DateTime @default(now())
+  alerts        Alert[]  @relation("PostAlerts")
+}
+
+model Alert {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  severity    String
+  confidence  Float
+  status      String   @default("active")
+  resolvedAt  DateTime?
+  resolvedBy  String?  
+  resolver    User?    @relation("ResolvedBy", fields: [resolvedBy], references: [id])
+  createdAt   DateTime @default(now())
+  posts       Post[]   @relation("PostAlerts")
+}
+
+model Incident {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  type        String
+  severity    String
+  lat         Float
+  lng         Float
+  locationName String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum Role {
+  USER
+  MODERATOR
+  ADMIN
+}
